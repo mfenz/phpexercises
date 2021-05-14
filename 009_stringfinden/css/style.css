@@ -1,0 +1,17 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div {
+    margin: 8px;
+}
+.not-found {
+    background-color: red;
+    color: white;
+    padding: 16px;
+}
+
+.found {
+    border: 1px solid green;
+    padding: 16px;
+}
