@@ -1,0 +1,16 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.success {
+    font-weight: bold;
+    border: 5px dotted green;
+    padding: 16px;
+}
+
+.error {
+    font-weight: bold;
+    background-color: red;
+    color: white;
+    padding: 16px;
+}
