@@ -52,3 +52,8 @@
 form div {
     margin: 8px;
 }
+
+.profilbild {
+    max-width: 300px;
+    max-height: 300px;
+}

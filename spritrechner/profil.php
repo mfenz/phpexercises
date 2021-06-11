@@ -14,8 +14,14 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true){
 require_once 'db/dbconnection.inc.php';
 // Datei UserManager inkludieren
 require_once 'manager/usermanager.inc.php';
+// Datei TankManager inkludieren
+require_once 'manager/tankmanager.inc.php';
+
 // Objekt der Klasse UserManager erzeugen
 $userManager = new UserManager($connection);
+
+// Objekt der Klasse TankManager erzeugen
+$tankManager = new TankManager($connection);
 
 // Wer ruft diese Seite überhaupt auf?
 $userId = $_SESSION['userid'];
@@ -36,6 +42,16 @@ if(isset($_POST['btprofilbild'])){
     } else {
         $errors[] = 'Es wurde keine Datei angegeben';
     }
+} elseif(isset($_POST['btbearbeiten'])){
+    // User-Beschreibung bearbeiten
+
+    // User-Objekt bearbeiten
+    $user->setBeschreibung($_POST['beschreibung']);
+
+    // Änderungen am User in der Datenbank übernehmen
+    $userManager->updateUser($user);
+
+    header('Location: ./profil.php');
 }
 
 
@@ -56,7 +72,7 @@ if(isset($_POST['btprofilbild'])){
     <h1>Profil</h1>
     <?php
     if(strlen($user->getFotoDateiname()) > 0){
-        echo '<img src="uploads/'.$user->getFotoDateiname().'">';
+        echo '<img class="profilbild" src="uploads/'.$user->getFotoDateiname().'">';
     }
     ?>
     <p>E-Mail: <?php echo htmlspecialchars($user->getEmail()); ?></p>
@@ -76,7 +92,7 @@ if(isset($_POST['btprofilbild'])){
     }
     ?>
     <form action="profil.php" method="post">
-        Beschreibung: <textarea name="beschreibung"></textarea><br/>
+        Beschreibung: <textarea name="beschreibung"><?php echo $user->getBeschreibung(); ?></textarea><br/>
         <input type="submit" name="btbearbeiten" value="Bearbeiten">
     </form>
 
@@ -85,6 +101,41 @@ if(isset($_POST['btprofilbild'])){
         <input type="file" name="profilbild" accept="image/jpeg, image/jpg, image/png"><br/>
         <input type="submit" name="btprofilbild" value="Profilbild hochladen">
     </form>
+
+    <h2>Tankbelege</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Datum</th>
+                <th>Liter</th>
+                <th>Betrag</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php
+// Laden der Tankbelege für diesen User
+$belege = $tankManager->getTankbelegeByUserId($userId);
+foreach($belege as $b){
+    echo '<tr>';
+    echo '<td>';
+    echo htmlspecialchars($b->getUser()->getEmail());
+    echo '</td>';
+    echo '<td>';
+    echo $b->getZeitpunkt()->format('d.m.Y h:i');
+    echo '</td>';
+    echo '<td>';
+    echo htmlspecialchars($b->getLiter());
+    echo '</td>';
+    echo '<td>';
+    echo htmlspecialchars($b->getBetrag());
+    echo '</td>';
+    echo '</tr>';
+}
+?>
+        </tbody>
+    </table>
+
 </section>
 </body>
 </html>

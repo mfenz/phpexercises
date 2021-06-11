@@ -30,7 +30,7 @@ class User {
 
 
     // Getter-Methoden
-    function getId() : int {
+    public function getId() : int {
         return $this->id;
     }
 
@@ -53,6 +53,11 @@ class User {
     // SEtter Methode
     function setFotoDateiname(string $fotoDateiname){
         $this->fotoDateiname = $fotoDateiname;
+    }
+
+    function setBeschreibung(string $beschreibung){
+        // Die Eigenschaft Beschreibung = Übergabeparameter Beschreibung
+        $this->beschreibung = $beschreibung;
     }
 }
 ?>

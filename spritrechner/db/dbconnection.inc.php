@@ -8,13 +8,14 @@ function connect() : PDO {
     
         // Datenbankverbindung aufbauen
         $host = "localhost";
-        $dbName = "bfi";
+        $dbName = "spritrechner";
         $user = "root";
         $password = "";
     
         $connection = new PDO("mysql:dbname=$dbName; host=$host", 
                                 $user, $password);
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_ERRMODE, 
+                                        PDO::ERRMODE_EXCEPTION);
         return $connection;
     
     } catch (PDOException $e) { 
